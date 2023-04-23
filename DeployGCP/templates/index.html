@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CycleGAN Demo</title>
+</head>
+<body>
+	<h1>CycleGAN Demo</h1>
+	<div>
+		<h2>Upload Image</h2>
+		<input type="file" id="image-upload">
+		<img id="input-image" width="300" height="300">
+	</div>
+	<br>
+	<button id="generate-button" disabled>Generate</button>
+	<br>
+	<br>
+	<div>
+		<h2>Generated Image 1</h2>
+		<img id="generated-image-1" width="300" height="300">
+	</div>
+	<br>
+	<div>
+		<h2>Generated Image 2</h2>
+		<img id="generated-image-2" width="300" height="300">
+	</div>
+	
+	<script>
+		const inputImage = document.getElementById("input-image");
+		const generatedImage1 = document.getElementById("generated-image-1");
+		const generatedImage2 = document.getElementById("generated-image-2");
+		const imageUpload = document.getElementById("image-upload");
+		const generateButton = document.getElementById("generate-button");
+
+		imageUpload.addEventListener("change", function (e) {
+			const file = e.target.files[0];
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function () {
+				inputImage.src = reader.result;
+				generateButton.disabled = false;
+			};
+		});
+
+		generateButton.addEventListener("click", function () {
+			const formData = new FormData();
+			formData.append("file", imageUpload.files[0]);
+			fetch("http://localhost:8000/generate_images", {
+				method: "POST",
+				body: formData,
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Network response was not ok");
+					}
+					return response.json();
+				})
+				.then((data) => {
+					generatedImage1.src = "data:image/jpeg;base64," + data["image_1"];
+					generatedImage2.src = "data:image/jpeg;base64," + data["image_2"];
+				})
+				.catch((error) => {
+					console.error("Error:", error);
+				});
+		});
+	</script>
+</body>
+</html>
