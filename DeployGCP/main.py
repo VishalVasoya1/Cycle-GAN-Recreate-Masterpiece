@@ -22,11 +22,11 @@ app.add_middleware(
     allow_headers=["*"], # spcific header
 )
 
-templates = Jinja2Templates(directory="DeployGCP/templates")
+templates = Jinja2Templates(directory="templates")
 
 # Load the TensorFlow model
-model_1 = load_model('Models/g_model_AtoB_001000.h5')
-model_2 = load_model('Models/g_model_BtoA_001000.h5')
+model_1 = load_model('g_model_AtoB_001000.h5')
+model_2 = load_model('g_model_BtoA_001000.h5')
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -43,24 +43,15 @@ def preprocessing(file):
 
 @app.post("/generate_images")
 async def upload_file(file: UploadFile = File(...)):
-    # Do something with the file
     content = await file.read()
     input_image = preprocessing(content)
-
-    print(input_image.shape)
-    # Convert the PIL image to a TensorFlow tensor
-
     generated_image_1 = model_1(input_image)[0]
     generated_image_1 = tf.image.convert_image_dtype(generated_image_1, tf.uint8)
-    print("Generated 1: ",generated_image_1.shape)
     generated_image_1 = Image.fromarray(generated_image_1.numpy())
-    
-    
+
     generated_image_2 = model_2(input_image)[0]
     generated_image_2 = tf.image.convert_image_dtype(generated_image_2, tf.uint8)
-    print("Generated 2: ",generated_image_2.shape)
     generated_image_2 = Image.fromarray(generated_image_2.numpy())
-
 
     buffered_1 = io.BytesIO()
     generated_image_1.save(buffered_1, format="JPEG")
@@ -70,8 +61,4 @@ async def upload_file(file: UploadFile = File(...)):
     generated_image_2.save(buffered_2, format="JPEG")
     img_str_2 = base64.b64encode(buffered_2.getvalue()).decode("ascii")
 
-
-    return { "image_1" : img_str_1 , "image_2":img_str_2 }
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    return { "image_1" : img_str_1 , "image_2" : img_str_2 }
