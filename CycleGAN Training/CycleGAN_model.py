@@ -21,19 +21,19 @@ from numpy.random import randint
 from keras.optimizers import Adam
 from keras.initializers import RandomNormal
 from keras.models import Model
-from keras.models import Input
+from keras import Input
 from keras.layers import Conv2D
 from keras.layers import Conv2DTranspose
 from keras.layers import LeakyReLU
 from keras.layers import Activation
 from keras.layers import Concatenate
-from keras_contrib.layers.normalization.instancenormalization import InstanceNormalization
+from tensorflow_addons.layers import InstanceNormalization
+from matplotlib import pyplot
 
 #Download instance norm. code from the link above.
 #Or install keras_contrib using guidelines here: https://github.com/keras-team/keras-contrib 
 # from instancenormalization import InstanceNormalization  
 
-from matplotlib import pyplot
 
 # discriminator model (70x70 patchGAN)
 # C64-C128-C256-C512

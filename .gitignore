@@ -1,4 +1,5 @@
-__pycache__
-Models
+__pycache__/
+Deployment-FastAPI/__pycache__
 monet2photo
 monet2photo.zip
+.venv/

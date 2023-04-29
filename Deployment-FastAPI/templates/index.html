@@ -44,7 +44,7 @@
 		generateButton.addEventListener("click", function () {
 			const formData = new FormData();
 			formData.append("file", imageUpload.files[0]);
-			fetch("http://localhost:8000/generate_images", {
+			fetch("https://cyclegan-master-tvxidpiv6a-el.a.run.app/generate_images", {
 				method: "POST",
 				body: formData,
 			})
