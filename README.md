@@ -47,7 +47,8 @@ gcloud run deploy cyclegan-master \
 			--memory 8Gi 
 ```
 👉 4. Run the app on the provided URL.
-Deployed Model [GitHub Pages](https://cyclegan-recreate-master-piece.el.r.appspot.com/).
+
+[Check Deployed Model: ](https://cyclegan-recreate-master-piece.el.r.appspot.com/).
 
 
 **Step 4.2: Deploy to GCP**
