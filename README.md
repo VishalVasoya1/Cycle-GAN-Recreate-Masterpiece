@@ -17,4 +17,42 @@
 
 The `performance` folder contains visualizations of the trained model's performance. You can see how well the model is able to convert photos to monet-style paintings and vice versa.
 
+Step 4: Deployment
+
+**Folder named : Deployment-FastAPI**
+
+This folder contains an API endpoint for the model that I used to deploy my model to Docker and GCP. It also contains a template inside it that contains a webpage for the model.
+
+**Folder named : utils**
+
+This folder contains API endpoints using Flask. Both FastAPI and Flask are available.
+
+**Step 4.1: Deploy to Docker container**
+
+File name: Dockerfile and docker-compose file contain instructions to deploy the code to a Docker container. Once the Docker container deployment is done locally, I tried to deploy that container on GCP Artifact Registry.
+
+Instructions:
+
+1. Create a repository in GCP in the section of Artifact Registry. Configure the Docker region by using this command in the Google Cloud SDK shell:
+```
+gcloud auth configure-docker asia-south1-docker.pkg.dev
+```
+2. Push the Docker container to the repository in GCP Artifact Registry using this command in the Google Cloud SDK shell:
+```
+docker tag cyclegan-masterpiece:latest asia-south1-docker.pkg.dev/cyclegan-recreate-master-piece/cyclegan-masterpiece/cyclegan-masterpiece:latest 
+docker push asia-south1-docker.pkg.dev/cyclegan-recreate-master-piece/cyclegan-masterpiece/cyclegan-masterpiece:latest
+```
+3. Deploy the container on GCP by running this command in the Google Cloud SDK:
+```
+gcloud run deploy cyclegan-master \
+			--image asia-south1-docker.pkg.dev/cyclegan-recreate-master-piece/cyclegan-masterpiece/cyclegan-masterpiece:latest  \
+			--region asia-south1 \
+			--port 8000 \
+			--memory 8Gi 
+```
+4. Run the app on the provided URL.
+
+
+This step-by-step guide will help you deploy your CycleGAN model to GCP with ease.
+
 🚀 Now you are ready to generate monet-style paintings from your own photos using CycleGAN!
