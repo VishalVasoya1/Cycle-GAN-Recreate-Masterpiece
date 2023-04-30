@@ -25,7 +25,7 @@ This folder `utils` contains API endpoints using Flask. Both FastAPI and Flask a
 
 **Step 4.1: Deploy to Docker container**
 
-File name: Dockerfile and docker-compose file contain instructions to deploy the code to a Docker container. Once the Docker container deployment is done locally, I tried to deploy that container on GCP Artifact Registry.
+File name: `Dockerfile` and `docker-compose.yml` file contain instructions to deploy the code to a Docker container. Once the Docker container deployment is done locally, I tried to deploy that container on GCP Artifact Registry.
 
 Instructions:
 
@@ -48,7 +48,8 @@ gcloud run deploy cyclegan-master \
 ```
 4. Run the app on the provided URL.
 
-**Step 4.2: Deploy to GCP:**
+**Step 4.2: Deploy to GCP**
+
 Folder named `DeployGCP` contains all the requirements for deploying the model to GCP using App Engine.
 
 👉 Step 1: Open the Google Cloud Shell SDK and run this command to deploy the app using the `app.yaml` file:
@@ -58,7 +59,6 @@ gcloud app deploy app.yaml --project cyclegan-recreate-master-piece
 👉 Step 2: Once the deployment is successful, you will get a URL from GCP. Run this URL to access the app.
 
 Note: Make sure to configure the `app.yaml` file properly before deploying the app to GCP. Also, the project ID `cyclegan-recreate-master-piece` is just an example, you need to replace it with your own project ID.
-
 
 This step-by-step guide will help you deploy your CycleGAN model to GCP with ease.
 
