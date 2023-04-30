@@ -13,4 +13,8 @@
 * The `Model` folder contains the trained CycleGAN model for generating monet-style paintings from photos and vice versa.
 * You can use this pre-trained model to generate monet-style paintings from your own photos or use it as a starting point for further fine-tuning and experimentation.
 
+## Step 3: Performance
+
+The `performance` folder contains visualizations of the trained model's performance. You can see how well the model is able to convert photos to monet-style paintings and vice versa.
+
 🚀 Now you are ready to generate monet-style paintings from your own photos using CycleGAN!
