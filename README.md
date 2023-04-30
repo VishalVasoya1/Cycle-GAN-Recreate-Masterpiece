@@ -48,7 +48,7 @@ gcloud run deploy cyclegan-master \
 ```
 👉 4. Run the app on the provided URL.
 
-Check Deployed model on GCP: [URL](https://cyclegan-master-tvxidpiv6a-el.a.run.app/).
+Check Deployed model on GCP: [URL](https://cyclegan-master-tvxidpiv6a-el.a.run.app/)
 
 
 **Step 4.2: Deploy to GCP**
@@ -61,7 +61,7 @@ gcloud app deploy app.yaml --project cyclegan-recreate-master-piece
 ```
 👉 Step 2: Once the deployment is successful, you will get a URL from GCP. Run this URL to access the app.
 
-Check Deployed model on GCP: [URL](https://cyclegan-recreate-master-piece.el.r.appspot.com/).
+Check Deployed model on GCP: [URL](https://cyclegan-recreate-master-piece.el.r.appspot.com/)
 
 Note: Make sure to configure the `app.yaml` file properly before deploying the app to GCP. Also, the project ID `cyclegan-recreate-master-piece` is just an example, you need to replace it with your own project ID.
 
