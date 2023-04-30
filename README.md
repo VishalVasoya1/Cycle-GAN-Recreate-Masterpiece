@@ -48,6 +48,17 @@ gcloud run deploy cyclegan-master \
 ```
 4. Run the app on the provided URL.
 
+**Step 4.2: Deploy to GCP:**
+Folder named `DeployGCP` contains all the requirements for deploying the model to GCP using App Engine.
+
+👉 Step 1: Open the Google Cloud Shell SDK and run this command to deploy the app using the `app.yaml` file:
+```
+gcloud app deploy app.yaml --project cyclegan-recreate-master-piece
+```
+👉 Step 2: Once the deployment is successful, you will get a URL from GCP. Run this URL to access the app.
+
+Note: Make sure to configure the `app.yaml` file properly before deploying the app to GCP. Also, the project ID `cyclegan-recreate-master-piece` is just an example, you need to replace it with your own project ID.
+
 
 This step-by-step guide will help you deploy your CycleGAN model to GCP with ease.
 
