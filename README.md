@@ -19,13 +19,9 @@ The `performance` folder contains visualizations of the trained model's performa
 
 ## Step 4: Deployment
 
-**Folder named : Deployment-FastAPI**
+This folder `Deployment-FastAPI` contains an API endpoint for the model that I used to deploy my model to Docker and GCP. It also contains a template inside it that contains a webpage for the model.
 
-This folder contains an API endpoint for the model that I used to deploy my model to Docker and GCP. It also contains a template inside it that contains a webpage for the model.
-
-**Folder named : utils**
-
-This folder contains API endpoints using Flask. Both FastAPI and Flask are available.
+This folder `utils` contains API endpoints using Flask. Both FastAPI and Flask are available.
 
 **Step 4.1: Deploy to Docker container**
 
