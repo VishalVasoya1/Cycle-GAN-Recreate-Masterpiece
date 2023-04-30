@@ -1,4 +1,3 @@
-# Cycle-GAN-Recreate-Masterpiece
 # CycleGAN for Photo to Monet Painting Generator
 
 🎨 This project contains a CycleGAN implementation for generating monet-style paintings from photos. 
