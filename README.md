@@ -29,16 +29,16 @@ File name: `Dockerfile` and `docker-compose.yml` file contain instructions to de
 
 Instructions:
 
-1. Create a repository in GCP in the section of Artifact Registry. Configure the Docker region by using this command in the Google Cloud SDK shell:
+👉 1. Create a repository in GCP in the section of Artifact Registry. Configure the Docker region by using this command in the Google Cloud SDK shell:
 ```
 gcloud auth configure-docker asia-south1-docker.pkg.dev
 ```
-2. Push the Docker container to the repository in GCP Artifact Registry using this command in the Google Cloud SDK shell:
+👉 2. Push the Docker container to the repository in GCP Artifact Registry using this command in the Google Cloud SDK shell:
 ```
 docker tag cyclegan-masterpiece:latest asia-south1-docker.pkg.dev/cyclegan-recreate-master-piece/cyclegan-masterpiece/cyclegan-masterpiece:latest 
 docker push asia-south1-docker.pkg.dev/cyclegan-recreate-master-piece/cyclegan-masterpiece/cyclegan-masterpiece:latest
 ```
-3. Deploy the container on GCP by running this command in the Google Cloud SDK:
+👉 3. Deploy the container on GCP by running this command in the Google Cloud SDK:
 ```
 gcloud run deploy cyclegan-master \
 			--image asia-south1-docker.pkg.dev/cyclegan-recreate-master-piece/cyclegan-masterpiece/cyclegan-masterpiece:latest  \
@@ -46,7 +46,7 @@ gcloud run deploy cyclegan-master \
 			--port 8000 \
 			--memory 8Gi 
 ```
-4. Run the app on the provided URL.
+👉 4. Run the app on the provided URL.
 
 **Step 4.2: Deploy to GCP**
 
