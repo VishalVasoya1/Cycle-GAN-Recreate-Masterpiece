@@ -17,7 +17,7 @@
 
 The `performance` folder contains visualizations of the trained model's performance. You can see how well the model is able to convert photos to monet-style paintings and vice versa.
 
-Step 4: Deployment
+## Step 4: Deployment
 
 **Folder named : Deployment-FastAPI**
 
