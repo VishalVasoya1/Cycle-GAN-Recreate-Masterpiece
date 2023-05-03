@@ -1,5 +1,6 @@
 
-from fastapi import FastAPI, Request, Form, UploadFile, File
+from fastapi import FastAPI, Request, UploadFile, File
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
@@ -20,6 +21,8 @@ app.add_middleware(
     allow_methods=["*"], # not only allow spicific domain but also we allow specific http method -> if public api -> user get data -> we not allow user to make put request 
     allow_headers=["*"], # spcific header
 )
+
+app.mount("/static", StaticFiles(directory="Deployment-FastAPI/static"), name="static")
 
 templates = Jinja2Templates(directory="Deployment-FastAPI/templates")
 

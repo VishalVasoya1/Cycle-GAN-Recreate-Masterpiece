@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, Form, UploadFile, File
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
@@ -20,6 +21,8 @@ app.add_middleware(
     allow_headers=["*"], # spcific header
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 templates = Jinja2Templates(directory="templates")
 
 # Load the TensorFlow model
@@ -30,11 +33,6 @@ model_2 = load_model('g_model_BtoA_001000.h5')
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
-
-# @app.get("/")
-# def home():
-#     return {"Status":"running fastapi succesfully"}
-
 
 def preprocessing(file):
     # input_image = Image.open().convert('RGB')
