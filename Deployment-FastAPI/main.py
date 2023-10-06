@@ -50,6 +50,7 @@ def preprocessing(file):
 
 @app.post("/generate_images")
 async def upload_file(file: UploadFile = File(...)):
+
     content = await file.read()
     input_image = preprocessing(content)
     generated_image_1 = model_1(input_image)[0]
@@ -67,5 +68,6 @@ async def upload_file(file: UploadFile = File(...)):
     buffered_2 = io.BytesIO()
     generated_image_2.save(buffered_2, format="JPEG")
     img_str_2 = base64.b64encode(buffered_2.getvalue()).decode("ascii")
+
 
     return { "image_1" : img_str_1 , "image_2" : img_str_2 }

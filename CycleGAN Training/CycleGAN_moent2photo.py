@@ -32,22 +32,22 @@ def load_images(path, size=(256,256)):
 path = 'monet2photo/'
 
 # load dataset A - Monet paintings
-dataA_all = load_images(path + 'trainA/')
-print('Loaded dataA: ', dataA_all.shape)
+monet_all = load_images(path + 'trainA/')
+print('Loaded monet: ', monet_all.shape)
 
 from sklearn.utils import resample
 #To get a subset of all images, for faster training during demonstration
-dataA = resample(dataA_all, 
+monet = resample(monet_all, 
                  replace=False,     
                  n_samples=500,    
                  random_state=42) 
 
 # load dataset B - Photos 
-dataB_all = load_images(path + 'trainB/')
-print('Loaded dataB: ', dataB_all.shape)
+photo_all = load_images(path + 'trainB/')
+print('Loaded photo: ', photo_all.shape)
 #Get a subset of all images, for faster training during demonstration
 #We could have just read the list of files and only load a subset, better memory management. 
-dataB = resample(dataB_all, 
+photo = resample(photo_all, 
                  replace=False,     
                  n_samples=500,    
                  random_state=42) 
@@ -57,18 +57,18 @@ n_samples = 3
 for i in range(n_samples):
 	plt.subplot(2, n_samples, 1 + i)
 	plt.axis('off')
-	plt.imshow(dataA[i].astype('uint8'))
+	plt.imshow(monet[i].astype('uint8'))
 # plot target image
 for i in range(n_samples):
 	plt.subplot(2, n_samples, 1 + n_samples + i)
 	plt.axis('off')
-	plt.imshow(dataB[i].astype('uint8'))
+	plt.imshow(photo[i].astype('uint8'))
 plt.show()
 
 
 
 # load image data
-data = [dataA, dataB]
+data = [monet, photo]
 
 print('Loaded', data[0].shape, data[1].shape)
 
@@ -90,22 +90,22 @@ from CycleGAN_model import define_generator, define_discriminator, define_compos
 # define input shape based on the loaded dataset
 image_shape = dataset[0].shape[1:]
 # generator: A -> B
-g_model_AtoB = define_generator(image_shape)
+g_model_monet_to_photo = define_generator(image_shape)
 # generator: B -> A
-g_model_BtoA = define_generator(image_shape)
+g_model_photo_to_monet = define_generator(image_shape)
 # discriminator: A -> [real/fake]
-d_model_A = define_discriminator(image_shape)
+d_model_monet = define_discriminator(image_shape)
 # discriminator: B -> [real/fake]
-d_model_B = define_discriminator(image_shape)
+d_model_photo = define_discriminator(image_shape)
 # composite: A -> B -> [real/fake, A]
-c_model_AtoB = define_composite_model(g_model_AtoB, d_model_B, g_model_BtoA, image_shape)
+c_model_monet_to_photo = define_composite_model(g_model_monet_to_photo, d_model_photo, g_model_photo_to_monet, image_shape)
 # composite: B -> A -> [real/fake, B]
-c_model_BtoA = define_composite_model(g_model_BtoA, d_model_A, g_model_AtoB, image_shape)
+c_model_photo_to_monet = define_composite_model(g_model_photo_to_monet, d_model_monet, g_model_monet_to_photo, image_shape)
 
 from datetime import datetime 
 start1 = datetime.now() 
 # train models
-train(d_model_A, d_model_B, g_model_AtoB, g_model_BtoA, c_model_AtoB, c_model_BtoA, dataset, epochs=5)
+train(d_model_monet, d_model_photo, g_model_monet_to_photo, g_model_photo_to_monet, c_model_monet_to_photo, c_model_photo_to_monet, dataset, epochs=1000)
 
 stop1 = datetime.now()
 #Execution time of the model 
@@ -147,34 +147,34 @@ def show_plot(imagesX, imagesY1, imagesY2):
 	pyplot.show()
 
 # load dataset
-A_data = resample(dataA_all, 
+monet_data = resample(monet_all, 
                  replace=False,     
                  n_samples=50,    
                  random_state=42) # reproducible results
 
-B_data = resample(dataB_all, 
+B_data = resample(photo_all, 
                  replace=False,     
                  n_samples=50,    
                  random_state=42) # reproducible results
 
-A_data = (A_data - 127.5) / 127.5
+monet_data = (monet_data - 127.5) / 127.5
 B_data = (B_data - 127.5) / 127.5
 
 
 # load the models
 cust = {'InstanceNormalization': InstanceNormalization}
-model_AtoB = load_model('monet2photo_models/g_model_AtoB_005935.h5', cust)
-model_BtoA = load_model('monet2photo_models/g_model_BtoA_005935.h5', cust)
+model_monet_to_photo = load_model('monet2photo_models/g_model_monet_to_photo_005935.h5', cust)
+model_photo_to_monet = load_model('monet2photo_models/g_model_photo_to_monet_005935.h5', cust)
 
 # plot A->B->A (Monet to photo to Monet)
-A_real = select_sample(A_data, 1)
-B_generated  = model_AtoB.predict(A_real)
-A_reconstructed = model_BtoA.predict(B_generated)
+A_real = select_sample(monet_data, 1)
+B_generated  = model_monet_to_photo.predict(A_real)
+A_reconstructed = model_photo_to_monet.predict(B_generated)
 show_plot(A_real, B_generated, A_reconstructed)
 # plot B->A->B (Photo to Monet to Photo)
 B_real = select_sample(B_data, 1)
-A_generated  = model_BtoA.predict(B_real)
-B_reconstructed = model_AtoB.predict(A_generated)
+A_generated  = model_photo_to_monet.predict(B_real)
+B_reconstructed = model_monet_to_photo.predict(A_generated)
 show_plot(B_real, A_generated, B_reconstructed)
 
 ##########################
@@ -185,6 +185,6 @@ test_image_input = np.array([test_image])  # Convert single image to a batch.
 test_image_input = (test_image_input - 127.5) / 127.5
 
 # plot B->A->B (Photo to Monet to Photo)
-monet_generated  = model_BtoA.predict(test_image_input)
-photo_reconstructed = model_AtoB.predict(monet_generated)
+monet_generated  = model_photo_to_monet.predict(test_image_input)
+photo_reconstructed = model_monet_to_photo.predict(monet_generated)
 show_plot(test_image_input, monet_generated, photo_reconstructed)
