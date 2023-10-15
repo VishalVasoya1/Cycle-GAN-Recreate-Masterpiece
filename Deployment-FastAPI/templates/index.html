@@ -403,8 +403,8 @@
             });
             response.json().then(res => {
                 stopLoading()
-                image_div1.src = 'data:image/png;base64,' + res.image_1
-                image_div2.src = 'data:image/png;base64,' + res.image_2
+                image_div1.src = 'data:image/jpeg;base64,' + res.image_1
+                image_div2.src = 'data:image/jpeg;base64,' + res.image_2
                 image_div1.classList.remove('d-none')
                 image_div2.classList.remove('d-none')
             }).catch((e) => {
