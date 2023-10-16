@@ -5,8 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 import base64
 from keras.models import load_model
-from keras.utils import img_to_array, load_img
-import tensorflow as tf
+from keras.utils import img_to_array
 from PIL import Image
 import io
 from tensorflow_addons.layers import InstanceNormalization
@@ -76,7 +75,7 @@ async def upload_file(file: UploadFile = File(...)):
     
     # Preprocess the image
     preprocessed_image = preprocessing(image)   
-    preprocessed_image = tf.expand_dims(preprocessed_image, 0)
+    preprocessed_image = np.expand_dims(preprocessed_image, 0)
     
     # Generate monet painting from the photo
     monet_generated = model_photo_to_monet.predict(preprocessed_image)
