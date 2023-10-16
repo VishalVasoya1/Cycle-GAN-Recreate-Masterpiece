@@ -2,5 +2,12 @@ __pycache__/
 Deployment-FastAPI/__pycache__
 monet2photo
 monet2photo.zip
+<<<<<<< Updated upstream
 venv/
 monet2photo_less_v2.zip
+=======
+.venv/
+.vscode/
+venv/
+monet2photo_less_v2.zip
+>>>>>>> Stashed changes
