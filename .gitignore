@@ -6,3 +6,5 @@ monet2photo.zip
 .vscode/
 venv/
 monet2photo_less_v2.zip
+*.pem
+cyclegan.pem
