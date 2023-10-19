@@ -8,3 +8,4 @@ venv/
 monet2photo_less_v2.zip
 *.pem
 cyclegan.pem
+*.pem
