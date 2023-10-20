@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'cyclegan'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A98D5E70B69463B99211910D53C775F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1005D47894B94F92ACC6B1A77EF6F86B }}
