@@ -32,7 +32,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Define a directory where you want to store the uploaded images
-generated_image_dir = "generated_image/"
+generated_image_dir = "generated_image"
 
 # Check if the directory exists, and if so, delete it
 if os.path.exists(generated_image_dir):
