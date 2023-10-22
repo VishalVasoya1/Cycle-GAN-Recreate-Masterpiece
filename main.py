@@ -8,6 +8,7 @@ from keras.models import load_model
 from keras.utils import img_to_array
 from PIL import Image
 import io
+import uvicorn
 from tensorflow_addons.layers import InstanceNormalization
 import cv2
 import numpy as np
@@ -15,7 +16,6 @@ import datetime
 import uuid
 import os
 import shutil
-import google.protobuf
 
 app = FastAPI()
 
@@ -43,7 +43,7 @@ os.makedirs(generated_image_dir)
 
 # load the models
 cust = {'InstanceNormalization': InstanceNormalization}
-model_monet_to_photo = load_model('Models/g_model_AtoB_001072.h5', cust)
+model_monet_to_photo = 1 # load_model('Models/g_model_AtoB_001072.h5', cust)
 model_photo_to_monet = load_model('Models/g_model_BtoA_001072.h5', cust)
 
 
@@ -71,43 +71,51 @@ def display_image(image_name, image):
 
 @app.post("/generate_images")
 async def upload_file(file: UploadFile = File(...)):
-    content = await file.read()
-    image = Image.open(io.BytesIO(content)).convert("RGB")
-    
-    # Preprocess the image
-    preprocessed_image = preprocessing(image)   
-    preprocessed_image = np.expand_dims(preprocessed_image, 0)
-    
-    # Generate monet painting from the photo
-    monet_generated = model_photo_to_monet.predict(preprocessed_image)
+    try:
+        content = await file.read()
+        image = Image.open(io.BytesIO(content)).convert("RGB")
+        
+        # Preprocess the image
+        preprocessed_image = preprocessing(image)   
+        preprocessed_image = np.expand_dims(preprocessed_image, 0)
+        
+        # Generate monet painting from the photo
+        monet_generated = model_photo_to_monet.predict(preprocessed_image)
 
-    # Generate monet painting from the photo
-    photo_generated = model_monet_to_photo.predict(monet_generated)
+        # Generate monet painting from the photo
+        photo_generated = model_monet_to_photo.predict(monet_generated)
 
-    # Generate unique timestamps and UUIDs
-    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    unique_id = str(uuid.uuid4())
+        # Generate unique timestamps and UUIDs
+        timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        unique_id = str(uuid.uuid4())
 
-    # Save and display the images with unique filenames
-    original_image_filename = f"original_image_{timestamp}_{unique_id}.jpg"
-    monet_generated_filename = f"monet_generated_{timestamp}_{unique_id}.jpg"
-    photo_generated_filename = f"photo_generated_{timestamp}_{unique_id}.jpg"
+        # Save and display the images with unique filenames
+        original_image_filename = f"original_image_{timestamp}_{unique_id}.jpg"
+        monet_generated_filename = f"monet_generated_{timestamp}_{unique_id}.jpg"
+        photo_generated_filename = f"photo_generated_{timestamp}_{unique_id}.jpg"
 
-    # Save and display the images
-    save_image(original_image_filename,image)
-    save_image(monet_generated_filename, Image.fromarray(np.uint8(monet_generated[0] * 127.5 + 127.5), 'RGB'))
-    save_image(photo_generated_filename, Image.fromarray(np.uint8(photo_generated[0] * 127.5 + 127.5), 'RGB'))
+        # Save and display the images
+        save_image(original_image_filename,image)
+        save_image(monet_generated_filename, Image.fromarray(np.uint8(monet_generated[0] * 127.5 + 127.5), 'RGB'))
+        save_image(photo_generated_filename, Image.fromarray(np.uint8(photo_generated[0] * 127.5 + 127.5), 'RGB'))
 
-    # Encode string as base64 strings
-    with open(f"{generated_image_dir}{monet_generated_filename}","rb") as img_file:
-        monet_generated_base64 = base64.b64encode(img_file.read()).decode("utf-8")
+        # Encode string as base64 strings
+        with open(f"{generated_image_dir}{monet_generated_filename}","rb") as img_file:
+            monet_generated_base64 = base64.b64encode(img_file.read()).decode("utf-8")
 
-    with open(f"{generated_image_dir}{photo_generated_filename}","rb") as img_file:
-        photo_generated_base64 = base64.b64encode(img_file.read()).decode("utf-8")
+        with open(f"{generated_image_dir}{photo_generated_filename}","rb") as img_file:
+            photo_generated_base64 = base64.b64encode(img_file.read()).decode("utf-8")
 
-    # remove saved file
-    os.remove(f"{generated_image_dir}{original_image_filename}")
-    os.remove(f"{generated_image_dir}{monet_generated_filename}")
-    os.remove(f"{generated_image_dir}{photo_generated_filename}")
+        # remove saved file
+        os.remove(f"{generated_image_dir}{original_image_filename}")
+        os.remove(f"{generated_image_dir}{monet_generated_filename}")
+        os.remove(f"{generated_image_dir}{photo_generated_filename}")
 
-    return { "image_1" : monet_generated_base64 , "image_2" : photo_generated_base64 }
+        return { "image_1" : monet_generated_base64 , "image_2" : photo_generated_base64 }
+    except Exception as error:
+        print("error : {error}".format(error))
+        return {"error" : str(error)}
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
