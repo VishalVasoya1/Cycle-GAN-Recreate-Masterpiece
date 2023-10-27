@@ -113,9 +113,9 @@ async def upload_file(file: UploadFile = File(...)):
 
         return { "image_1" : monet_generated_base64 , "image_2" : photo_generated_base64 }
     except Exception as error:
-        print("error : {error}".format(error))
+        print("error : {}".format(error))
         return {"error" : str(error)}
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000) 

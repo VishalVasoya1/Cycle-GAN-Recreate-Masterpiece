@@ -1,0 +1,9 @@
+Run the command in terminal :
+    pip install git+https://www.github.com/keras-team/keras-contrib.git
+
+Other way to download keras_contrib :
+    Download instance normalization code from here: https://github.com/keras-team/keras-contrib/blob/master/keras_contrib/layers/normalization/instancenormalization.py
+    Or install keras_contrib using guidelines here: https://github.com/keras-team/keras-contrib
+
+Download Dataset :
+    Dataset from https://people.eecs.berkeley.edu/~taesung_park/CycleGAN/datasets/
