@@ -43,8 +43,8 @@ os.makedirs(generated_image_dir)
 
 # load the models
 cust = {'InstanceNormalization': InstanceNormalization}
-model_monet_to_photo = load_model('Models/g_model_AtoB_001072.h5', cust)
-model_photo_to_monet = load_model('Models/g_model_BtoA_001072.h5', cust)
+model_monet_to_photo = load_model('Models/g_model_monet_to_photo_002948.h5', cust)
+model_photo_to_monet = load_model('Models/g_model_photo_to_monet_002948.h5', cust)
 
 
 @app.get("/", response_class=HTMLResponse)
