@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/static/cybernetics.png">
+    <link rel="icon" type="image/x-icon" href="http://ec2-65-1-107-141.ap-south-1.compute.amazonaws.com/static/cybernetics.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -397,7 +397,7 @@
             var file_img = document.querySelector('input[type=file]').files[0];
             const f = new FormData();
             f.append('file', file_Obj)
-            const response = await fetch('http://localhost:8000/generate_images', {
+            const response = await fetch('http://ec2-65-1-107-141.ap-south-1.compute.amazonaws.com/generate_images', {
                 method: "POST",
                 body: (f),
             });
